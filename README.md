@@ -1,87 +1,109 @@
-# Hassan — Android developer portfolio
+# Hassan — Android Developer Portfolio
 
-A single-page portfolio built with React, TypeScript and Vite. No backend, no API keys.
+A personal portfolio site for **Hassan**, an Android app developer. It presents four projects with case studies, a skills overview, a timeline and a contact form, wrapped in a motion-heavy, cursor- and scroll-reactive design.
 
-## Run it
+Built with **React**, **TypeScript**, **Vite** and **Motion**. It is a fully static site: no backend, no API keys.
+
+---
+
+## Projects featured
+
+| Project | Stage | Built with |
+| --- | --- | --- |
+| **OmniFile** | In development | Kotlin, Jetpack Compose, Material 3, Room, WorkManager, SAF |
+| **ZenTime** | In development | Kotlin, Jetpack Compose, UsageStatsManager, AccessibilityService, Room, DataStore |
+| **Quran Companion** | In development | TypeScript, React, Capacitor, Tailwind CSS, Dexie, Kotlin |
+| **Music Player** | Details coming soon | — |
+
+Each technology listed comes from the project's own source code. Project content lives in [`src/data/projects.ts`](src/data/projects.ts).
+
+## Features
+
+- **Project showcases and case studies.** Phone mockups use real screenshots where they exist and clean schematic screens where they don't.
+- **Motion design.** Split-text headline reveals, staggered entrances, magnetic buttons and spring-based device entrances, all built with [Motion](https://motion.dev).
+- **Scroll-reactive background.** A canvas background that responds to scroll position and speed, with section-aware colour shifts.
+- **Cursor-reactive environment.** One shared pointer tracker drives the hero parallax, card tilt, spotlight glows and screenshot parallax.
+- **Accessible by default.**
+  - Every effect respects `prefers-reduced-motion`.
+  - Pointer effects only run on devices with a fine pointer (mouse or trackpad).
+  - Uses semantic landmarks and a visible focus style.
+- **Performance-minded.**
+  - Pointer and scroll work writes to motion values or CSS variables once per frame, without React re-renders.
+  - Infinite animations pause when off screen.
+- **Contact form without a backend**, powered by [FormSubmit](https://formsubmit.co).
+- **SEO and sharing.** Meta description, Open Graph image, favicon and Apple touch icon.
+
+## Tech stack
+
+- [React 19](https://react.dev) and [TypeScript](https://www.typescriptlang.org)
+- [Vite 6](https://vite.dev) for the dev server and build
+- [Motion 12](https://motion.dev) for animation
+- Plain CSS with design tokens (custom properties)
+- ESLint 9
+
+## Getting started
+
+You need [Node.js](https://nodejs.org) 18 or newer.
 
 ```bash
+git clone https://github.com/Hassan-art3/PortFolio-.git
+cd PortFolio-
 npm install
-npm run dev      # http://localhost:5173
-npm run build    # type-check + production build into dist/
-npm run preview  # serve the production build
+npm run dev
 ```
 
-## Where to edit
+Then open the local URL Vite prints (usually `http://localhost:5173`).
 
-| What | File |
+| Script | What it does |
 | --- | --- |
-| Name, GitHub, email, LinkedIn, site URL | `src/config/site.ts` |
-| Projects, case studies, screenshots, links | `src/data/projects.ts` |
-| Skills & tools | `src/data/skills.ts` |
-| Timeline steps (add `date` when you want one) | `src/data/timeline.ts` |
-| Colours, type scale, spacing, radii | `:root` tokens in `src/index.css` |
-| Animation timing, easing, springs | `src/motion/tokens.ts` (mirrored as CSS vars in `index.css`) |
-| Contact form destination | `contactForm.endpoint` in `src/config/site.ts` |
-| SEO / social tags | `index.html` |
+| `npm run dev` | Start the dev server with hot reload |
+| `npm run build` | Type-check, then build to `dist/` |
+| `npm run preview` | Serve the production build locally |
+| `npm run lint` | Run ESLint |
 
-Empty links are hidden automatically, so there are no dead buttons. While `npm run dev` is
-running, a small banner lists any config fields that are still empty.
+## Project structure
 
-### Contact form
+```
+public/                 Static files: favicon, OG image, project screenshots
+src/
+  config/site.ts        Name, role, links, contact form endpoint
+  data/
+    projects.ts         Projects and case-study content
+    skills.ts           Skills section
+    timeline.ts         Timeline section
+  components/           Page sections (Hero, Projects, Contact, ...) and their CSS
+  motion/               Motion helpers: SplitText, Magnetic, hooks, timing tokens
+  background/           Scroll-reactive canvas background
+  pointer/pointer.ts    Shared cursor tracker used by all pointer effects
+```
 
-Messages are posted to [FormSubmit](https://formsubmit.co) (free, no account or API key).
-**Before relying on it, send one test message from the live site yourself:** FormSubmit emails a
-one-time activation link to the address in `contactForm.endpoint`. Click it, and every message
-after that is delivered to your inbox. If sending fails, the form offers an “Email me instead”
-link. Leave `endpoint` empty to always use the visitor's email app.
+## Customising
 
-### Motion
+Most changes only need edits to a few files:
 
-Built with [Motion for React](https://motion.dev) (`motion` package) plus CSS transitions and
-keyframes. Shared building blocks live in `src/motion/`:
+| To change | Edit |
+| --- | --- |
+| Name, role, GitHub, email, LinkedIn, site URL | `src/config/site.ts` |
+| Projects, case studies, screenshots | `src/data/projects.ts` and `public/projects/` |
+| Skills | `src/data/skills.ts` |
+| Timeline | `src/data/timeline.ts` |
+| Background colours and behaviour | `src/background/config.ts` |
+| Animation timings and easing | `src/motion/tokens.ts` |
 
-- `SplitText`: masked word-by-word heading reveals
-- `Magnetic`: pointer-pull wrapper for buttons (desktop only)
-- `hooks.ts`: pointer parallax, pointer spotlight, pausing infinite animations off-screen
-- `tokens.ts`: durations, easings, springs, hero choreography and shared `inView` settings
+**Adding screenshots:** put images (WebP recommended) in `public/projects/<project-id>/`, then reference them in that project's `screens` array in `projects.ts`. Projects without screenshots fall back to schematic screens.
 
-Rich pointer effects run only on devices with a mouse/trackpad; scroll-linked parallax is
-desktop-only; everything respects the OS “reduce motion” setting.
+## Contact form
 
-### Animated background
+The form posts to FormSubmit's AJAX endpoint, which is set in `src/config/site.ts` (`contactForm.endpoint`). FormSubmit sends a one-time activation email to the receiving address the first time the form is used. Messages are delivered after that email is confirmed.
 
-`src/background/` holds the persistent, scroll-reactive background:
+## Deployment
 
-- `config.ts`: colours, particle density, speeds, parallax, glow intensity, scroll response,
-  mobile limits, reduced-motion behaviour, and one *atmosphere* per section (glow positions,
-  tint, emphasis)
-- `scrollTracker.ts`: scroll position/velocity plus continuous blending between section
-  atmospheres (sampled once per frame, never inside scroll events)
-- `renderer.ts`: one `requestAnimationFrame` loop for the canvas (particles, connections,
-  flowing lines) and the CSS layers (glows, dots, grid), with idle half-rate, automatic quality
-  step-down, DPR caps and pausing in hidden tabs
-- `Background.tsx`: the fixed layer (`pointer-events: none`, behind all content)
+`npm run build` outputs a static site to `dist/`. You can host it on any static host, such as GitHub Pages, Netlify, Vercel or Cloudflare Pages.
 
-To add a new section's atmosphere, give the section an `id` and add an entry to `atmospheres`
-in page order.
+- For **GitHub Pages** under a project path (e.g. `/PortFolio-/`), set `base: '/PortFolio-/'` in `vite.config.ts` before building.
+- After deploying, set `url` in `src/config/site.ts` to the live address. Also set absolute URLs for `og:url` and `og:image` in `index.html`.
 
-### Adding screenshots
+## Contact
 
-1. Put images in `public/projects/<project-id>/` (WebP, about 585×1266 for phone screens).
-2. Add them to that project's `screens` array in `src/data/projects.ts`:
-   `{ kind: 'image', src: '/projects/omnifile/home.webp', alt: 'OmniFile home screen' }`
-3. Remove the `schematic` entry once a real screenshot replaces it.
-
-### Things still to fill in
-
-- `src/config/site.ts`: GitHub, email, LinkedIn and the deployed URL.
-- Music player: everything in its entry in `projects.ts` is a placeholder.
-- Real screenshots for OmniFile and ZenTime (they currently use labelled UI schematics).
-- The `learned` lists in each case study are drafts; rewrite them in your own words.
-- After deploying, change `og:image` in `index.html` to an absolute URL.
-
-## Sources
-
-Project facts were taken from the local source of each app: Gradle build files, manifests,
-Kotlin/TypeScript sources and resource files. The Quran Companion screenshots come from its
-built web bundle running at a phone-sized viewport.
+- GitHub: [@Hassan-art3](https://github.com/Hassan-art3)
+- Email: [hassan03334748@gmail.com](mailto:hassan03334748@gmail.com)

@@ -324,17 +324,21 @@
     translate 700ms var(--ease-spring),
     rotate 700ms var(--ease-spring);
 }
-.showcase__phone .phone__screen > img {
+.showcase__phone .phone__screen > img,
+.showcase__phone .schem {
   transition: transform 900ms var(--ease-out);
 }
 /* Screenshot parallax: the image zooms slightly and slides against the cursor
    inside the phone frame (--nx/--ny come from the card's spotlight hook). */
 @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  .showcase__phone .phone__screen > img {
-    transform: scale(var(--zoom, 1)) translate(calc(var(--nx, 0) * -14px), calc(var(--ny, 0) * -14px));
+  /* 12px keeps the shifted edge inside the 1.06 zoom margin, so no gap shows */
+  .showcase__phone .phone__screen > img,
+  .showcase__phone .schem {
+    transform: scale(var(--zoom, 1)) translate(calc(var(--nx, 0) * -12px), calc(var(--ny, 0) * -12px));
     transition: transform 500ms var(--ease-out);
   }
-  .showcase__inner:hover .phone__screen > img {
+  .showcase__inner:hover .phone__screen > img,
+  .showcase__inner:hover .schem {
     --zoom: 1.06;
   }
 }
