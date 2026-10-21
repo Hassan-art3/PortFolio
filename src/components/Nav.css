@@ -1,0 +1,223 @@
+.nav {
+  position: fixed;
+  top: var(--sp-3);
+  left: 0;
+  right: 0;
+  z-index: 50;
+  padding-inline: var(--gutter);
+  pointer-events: none;
+}
+
+.nav__bar {
+  pointer-events: auto;
+  max-width: var(--container);
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  height: 60px;
+  padding: 0 var(--sp-2) 0 var(--sp-4);
+  border-radius: var(--radius-pill);
+  border: 1px solid transparent;
+  transition:
+    background-color var(--dur) var(--ease-out),
+    border-color var(--dur) var(--ease-out);
+}
+.nav.is-scrolled .nav__bar,
+.nav.is-open .nav__bar {
+  /* Near-opaque instead of backdrop-filter: blur re-renders on every scroll frame */
+  background: rgba(15, 18, 17, 0.94);
+  border-color: var(--line);
+  box-shadow: 0 10px 30px -18px rgba(0, 0, 0, 0.8);
+}
+
+.nav__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-3);
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  margin-right: auto;
+}
+.nav__brand-dim {
+  color: var(--text-faint);
+}
+.nav__mark {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;
+  transition: transform var(--dur) var(--ease-out);
+}
+.nav__brand:hover .nav__mark {
+  transform: rotate(-8deg);
+}
+
+.nav__links ul {
+  display: flex;
+  gap: var(--sp-1);
+}
+.nav__links a {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 var(--sp-4);
+  border-radius: var(--radius-pill);
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  transition: color var(--dur-fast);
+}
+.nav__label {
+  position: relative;
+  z-index: 1;
+}
+.nav__links a:hover,
+.nav__links a.is-active {
+  color: var(--text);
+}
+.nav__pill {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: rgba(255, 255, 255, 0.06);
+}
+.nav__dot {
+  position: absolute;
+  left: 50%;
+  bottom: 5px;
+  width: 4px;
+  height: 4px;
+  margin-left: -2px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.nav__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  height: 44px;
+  padding: 0 var(--sp-5);
+  border-radius: var(--radius-pill);
+  background: var(--text);
+  color: var(--bg);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  transition: background-color var(--dur-fast);
+}
+.nav__cta:hover {
+  background: var(--accent);
+}
+
+.nav__toggle {
+  display: none;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--text);
+}
+.nav__toggle:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+.nav__burger {
+  position: relative;
+  width: 20px;
+  height: 12px;
+}
+.nav__burger span {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(50% - 0.875px);
+  height: 1.75px;
+  border-radius: 2px;
+  background: currentColor;
+  transition: transform 380ms var(--ease-spring);
+}
+.nav__burger span:first-child {
+  transform: translateY(-5px);
+}
+.nav__burger span:last-child {
+  transform: translateY(5px);
+}
+.nav.is-open .nav__burger span:first-child {
+  transform: rotate(45deg);
+}
+.nav.is-open .nav__burger span:last-child {
+  transform: rotate(-45deg);
+}
+
+.nav__sheet {
+  pointer-events: auto;
+  max-width: var(--container);
+  margin: var(--sp-2) auto 0;
+  padding: var(--sp-3);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--line);
+  background: rgba(15, 18, 17, 0.98);
+}
+.nav__sheet a {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-4);
+  padding: var(--sp-4);
+  border-radius: var(--radius);
+  font-family: var(--font-display);
+  font-size: 1.625rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.nav__sheet a .mono {
+  font-size: var(--fs-xs);
+  color: var(--accent);
+  font-weight: 400;
+}
+.nav__sheet a:hover,
+.nav__sheet a:focus-visible {
+  background: var(--surface-2);
+}
+
+.nav__sheet-arrow {
+  margin-left: auto;
+  align-self: center;
+  color: var(--text-faint);
+  transition:
+    transform var(--dur) var(--ease-out),
+    color var(--dur-fast);
+}
+.nav__sheet a:hover .nav__sheet-arrow,
+.nav__sheet a:focus-visible .nav__sheet-arrow {
+  color: var(--accent);
+  transform: translateX(4px);
+}
+
+@media (max-width: 859px) {
+  .nav__links {
+    display: none;
+  }
+  .nav__toggle {
+    display: grid;
+  }
+  .nav__cta {
+    height: 40px;
+    padding: 0 var(--sp-4);
+  }
+}
+
+@media (max-width: 420px) {
+  .nav__brand-dim {
+    display: none;
+  }
+  .nav__cta {
+    padding: 0 var(--sp-3);
+  }
+}

@@ -1,0 +1,303 @@
+/* All sizes use container-query units so a schematic scales with its phone. */
+.schem {
+  --c: #5b9bf0;
+  --s-bg: #0d1117;
+  --s-card: #161c25;
+  --s-line: rgba(255, 255, 255, 0.07);
+  --s-text: rgba(255, 255, 255, 0.86);
+  --s-muted: rgba(255, 255, 255, 0.38);
+  position: absolute;
+  inset: 0;
+  background: var(--s-bg);
+  color: var(--s-text);
+  font-family: var(--font-body);
+  font-size: 3.6cqw;
+  line-height: 1.3;
+  overflow: hidden;
+}
+.schem--zentime {
+  --c: #2ec4b0;
+  --s-bg: #0b1312;
+  --s-card: #13201e;
+}
+.schem--music {
+  --c: #b39bf5;
+  --s-bg: #100e16;
+  --s-card: #1a1724;
+}
+
+.schem__badge {
+  position: absolute;
+  right: 5cqw;
+  bottom: 21cqw;
+  z-index: 3;
+  padding: 0.8cqw 2.4cqw;
+  border-radius: 99px;
+  border: 1px dashed rgba(255, 255, 255, 0.25);
+  background: rgba(0, 0, 0, 0.55);
+  font-family: var(--font-mono);
+  font-size: 2.6cqw;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.schem__body {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3cqw;
+  padding: 10cqw 5cqw 0;
+}
+.schem__body--center {
+  align-items: center;
+  padding-top: 16cqw;
+}
+
+.schem__status {
+  position: absolute;
+  top: 3cqw;
+  left: 7cqw;
+  right: 7cqw;
+  display: flex;
+  justify-content: space-between;
+}
+.schem__status > span:first-child {
+  width: 9cqw;
+  height: 2cqw;
+  border-radius: 2cqw;
+  background: var(--s-muted);
+}
+.schem__status-icons {
+  display: flex;
+  gap: 1.2cqw;
+}
+.schem__status-icons i {
+  width: 2.4cqw;
+  height: 2.4cqw;
+  border-radius: 50%;
+  background: var(--s-muted);
+}
+
+.schem__title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 7.4cqw;
+  letter-spacing: -0.02em;
+  margin-top: 2cqw;
+}
+
+.schem__search {
+  padding: 3cqw 4cqw;
+  border-radius: 99px;
+  background: var(--s-card);
+  color: var(--s-muted);
+  font-size: 3.4cqw;
+}
+
+.schem__label {
+  font-size: 3cqw;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--s-muted);
+  margin-top: 1.5cqw;
+}
+
+.schem__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2cqw;
+}
+.schem__cat {
+  display: grid;
+  justify-items: center;
+  gap: 1.4cqw;
+  font-size: 2.5cqw;
+  color: var(--s-muted);
+  text-align: center;
+}
+.schem__cat i {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 3.5cqw;
+  background: color-mix(in srgb, var(--c) 18%, var(--s-card));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c) 30%, transparent);
+}
+.schem__cat:nth-child(2n) i {
+  background: color-mix(in srgb, var(--c) 9%, var(--s-card));
+}
+
+.schem__rows,
+.schem__bars {
+  display: grid;
+  gap: 2.2cqw;
+}
+.schem__row,
+.schem__bars > span {
+  display: flex;
+  align-items: center;
+  gap: 3cqw;
+  padding: 2.6cqw 3cqw;
+  border-radius: 3cqw;
+  background: var(--s-card);
+}
+.schem__row i,
+.schem__bars i {
+  flex: none;
+  width: 7cqw;
+  height: 7cqw;
+  border-radius: 2cqw;
+  background: color-mix(in srgb, var(--c) 35%, var(--s-card));
+}
+.schem__row b {
+  height: 2.2cqw;
+  border-radius: 2cqw;
+  background: rgba(255, 255, 255, 0.16);
+}
+.schem__bars b {
+  height: 2.4cqw;
+  border-radius: 2cqw;
+  background: var(--c);
+  opacity: 0.85;
+}
+
+.schem__ring {
+  position: relative;
+  width: 52cqw;
+  margin: 1cqw auto 0;
+  display: grid;
+  place-items: center;
+}
+.schem__ring svg {
+  width: 100%;
+  transform: rotate(-90deg);
+}
+.schem__ring circle {
+  fill: none;
+  stroke-width: 9;
+}
+.schem__ring .track {
+  stroke: var(--s-card);
+}
+.schem__ring .arc {
+  stroke: var(--c);
+  stroke-linecap: round;
+  stroke-dasharray: 64 100;
+}
+.schem__ring > span {
+  position: absolute;
+  font-size: 3.2cqw;
+  color: var(--s-muted);
+}
+
+.schem__chips {
+  display: flex;
+  gap: 2cqw;
+}
+.schem__chips span {
+  padding: 1.6cqw 3.4cqw;
+  border-radius: 99px;
+  border: 1px solid var(--s-line);
+  font-size: 3cqw;
+  color: var(--s-muted);
+}
+.schem__chips .is-on {
+  background: color-mix(in srgb, var(--c) 22%, transparent);
+  border-color: color-mix(in srgb, var(--c) 50%, transparent);
+  color: var(--s-text);
+}
+
+.schem__nav {
+  margin-top: auto;
+  margin-inline: -5cqw;
+  display: flex;
+  justify-content: space-around;
+  padding: 3cqw 2cqw 6cqw;
+  border-top: 1px solid var(--s-line);
+  background: color-mix(in srgb, var(--s-card) 70%, var(--s-bg));
+  font-size: 2.3cqw;
+  color: var(--s-muted);
+}
+.schem__nav span {
+  display: grid;
+  justify-items: center;
+  gap: 1cqw;
+}
+.schem__nav i {
+  width: 5cqw;
+  height: 5cqw;
+  border-radius: 1.4cqw;
+  border: 1.5px solid currentColor;
+}
+.schem__nav .is-active {
+  color: var(--c);
+}
+.schem__nav .is-active i {
+  background: color-mix(in srgb, var(--c) 30%, transparent);
+}
+
+.schem__art {
+  width: 70cqw;
+  aspect-ratio: 1;
+  border-radius: 6cqw;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(circle at 30% 25%, color-mix(in srgb, var(--c) 40%, transparent), transparent 60%),
+    var(--s-card);
+  box-shadow: inset 0 0 0 1px var(--s-line);
+  font-size: 20cqw;
+  color: color-mix(in srgb, var(--c) 70%, white);
+  margin-bottom: 3cqw;
+}
+.schem__line {
+  width: 40cqw;
+  height: 2.6cqw;
+  border-radius: 2cqw;
+  background: rgba(255, 255, 255, 0.14);
+}
+.schem__line--lg {
+  width: 56cqw;
+  height: 4cqw;
+  background: rgba(255, 255, 255, 0.24);
+}
+.schem__progress {
+  width: 76cqw;
+  height: 1.2cqw;
+  border-radius: 2cqw;
+  background: var(--s-card);
+  margin-top: 3cqw;
+}
+.schem__progress i {
+  display: block;
+  width: 38%;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--c);
+}
+.schem__controls {
+  display: flex;
+  align-items: center;
+  gap: 7cqw;
+  margin-top: 3cqw;
+}
+.schem__controls span {
+  width: 9cqw;
+  height: 9cqw;
+  border-radius: 50%;
+  background: var(--s-card);
+}
+.schem__controls .is-main {
+  width: 16cqw;
+  height: 16cqw;
+  background: var(--c);
+}
+.schem__note {
+  margin-top: auto;
+  margin-bottom: 10cqw;
+  font-family: var(--font-mono);
+  font-size: 3cqw;
+  color: var(--s-muted);
+}

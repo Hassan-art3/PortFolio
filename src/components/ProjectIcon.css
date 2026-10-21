@@ -1,0 +1,26 @@
+.project-icon {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  border-radius: 24%;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 8px 24px -8px rgba(0, 0, 0, 0.6);
+}
+.project-icon img,
+.project-icon svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.project-icon--mono {
+  background: color-mix(in srgb, var(--accent-p) 16%, #0e100f);
+  color: var(--accent-p);
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1;
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--accent-p) 35%, transparent),
+    0 8px 24px -8px rgba(0, 0, 0, 0.6);
+}

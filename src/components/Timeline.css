@@ -1,0 +1,192 @@
+.journey__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: clamp(2rem, 1rem + 4vw, 5rem);
+  align-items: start;
+}
+.journey__head {
+  position: sticky;
+  top: 120px;
+  margin-bottom: 0;
+}
+
+.term {
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--line-strong);
+  background: #0c0f0d;
+  overflow: hidden;
+  box-shadow: 0 40px 80px -40px rgba(0, 0, 0, 0.8);
+}
+.term__bar {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  height: 44px;
+  padding: 0 var(--sp-4);
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+}
+.term__dots {
+  display: flex;
+  gap: 6px;
+}
+.term__dots i {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--surface-3);
+}
+.term__title {
+  font-size: var(--fs-xs);
+  color: var(--text-faint);
+  margin-inline: auto;
+  transform: translateX(-24px);
+}
+
+.term__body {
+  position: relative;
+  padding: var(--sp-6) var(--sp-5) var(--sp-2);
+}
+
+/* One continuous line behind all entries; the fill is scroll-linked (scaleY) */
+.term__track {
+  position: absolute;
+  left: calc(var(--sp-5) + 8px);
+  top: calc(var(--sp-6) + 0.9rem);
+  bottom: var(--sp-6);
+  width: 1px;
+  background: var(--line);
+}
+.term__fill {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(var(--accent), #2ec4b0 40%, #5b9bf0 60%, #d9b440 80%, #b39bf5);
+  transform-origin: top;
+}
+
+.term__entry {
+  position: relative;
+  padding-left: var(--sp-6);
+  padding-bottom: var(--sp-6);
+}
+.term__entry-inner::before {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 0.55rem;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--accent-p);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent-p) 18%, transparent);
+  transform: scale(0);
+  transition: transform 600ms var(--ease-spring) calc(var(--reveal-delay, 0ms) + 250ms);
+}
+.term__entry.is-visible .term__entry-inner::before {
+  transform: scale(1);
+}
+
+/* Command "types" itself: clip-path steps reveal, one step per character */
+.js .term__typed {
+  display: inline-block;
+  clip-path: inset(0 100% 0 0);
+}
+.js .term__entry.is-visible .term__typed {
+  animation: type calc(var(--chars) * 35ms) steps(var(--chars)) calc(var(--reveal-delay, 0ms) + 300ms) forwards;
+}
+
+.term__cmd {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--sp-2);
+  font-size: var(--fs-sm);
+  color: var(--text);
+}
+.term__prompt {
+  color: var(--accent);
+}
+.term__step {
+  margin-left: auto;
+  font-size: 0.6875rem;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.term__out {
+  margin-top: var(--sp-3);
+  display: grid;
+  gap: var(--sp-2);
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+  max-width: 60ch;
+}
+.term__heading {
+  font-size: var(--fs-md);
+  letter-spacing: -0.015em;
+  color: var(--text);
+}
+.term__heading a {
+  background-image: linear-gradient(var(--accent-p), var(--accent-p));
+  background-size: 0% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size var(--dur) var(--ease-out);
+}
+.term__heading a:hover {
+  background-size: 100% 1px;
+}
+.term__aside {
+  font-size: var(--fs-xs);
+  color: var(--text-faint);
+}
+
+.term__cursor {
+  padding: 0 var(--sp-5) var(--sp-6);
+  font-size: var(--fs-sm);
+}
+.term__caret {
+  display: inline-block;
+  width: 8px;
+  height: 1em;
+  vertical-align: -2px;
+  background: var(--accent);
+  animation: blink 1.1s steps(1) infinite;
+}
+
+@keyframes type {
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@media (max-width: 960px) {
+  .journey__grid {
+    grid-template-columns: 1fr;
+  }
+  .journey__head {
+    position: static;
+  }
+}
+
+@media (max-width: 520px) {
+  .term__body {
+    padding: var(--sp-5) var(--sp-4) var(--sp-2);
+  }
+  .term__entry {
+    padding-left: var(--sp-5);
+  }
+  .term__track {
+    left: calc(var(--sp-4) + 8px);
+  }
+  .term__step {
+    margin-left: 0;
+    width: 100%;
+  }
+}

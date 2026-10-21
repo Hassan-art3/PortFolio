@@ -1,0 +1,82 @@
+/* Fixed, full-viewport background behind everything. Never interactive. */
+.bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  background: var(--bg);
+  contain: strict;
+}
+
+.bg__glows {
+  position: absolute;
+  inset: 0;
+}
+/* Soft colour fields: fixed gradients, only transform + opacity change */
+.bg__glow {
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-radius: 50%;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+/* Fine dot texture (far layer, slow parallax) */
+.bg__dots {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: calc(100% + 56px);
+  background-image: radial-gradient(rgba(236, 241, 234, 0.07) 1px, transparent 1.2px);
+  background-size: 28px 28px;
+  mask-image: radial-gradient(ellipse 90% 70% at 50% 40%, #000 20%, transparent 85%);
+  will-change: transform;
+}
+
+/* Technical grid (nearer layer, faster parallax) */
+.bg__grid {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: calc(100% + 192px);
+  background-image:
+    linear-gradient(rgba(236, 241, 234, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(236, 241, 234, 0.045) 1px, transparent 1px);
+  background-size: 96px 96px;
+  mask-image: radial-gradient(ellipse 75% 60% at 50% 35%, #000 10%, transparent 80%);
+  will-change: transform, opacity;
+}
+
+/* Cursor light: positioned by the renderer with transform; fades via opacity */
+.bg__cursor {
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-radius: 50%;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.bg__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Darkens the edges so text near the margins keeps its contrast */
+.bg__vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 120% 90% at 50% 45%, transparent 55%, rgba(5, 6, 6, 0.55) 100%);
+}
+
+/* Without JS the glows stay hidden, so give a static base light instead */
+html:not(.js) .bg__glow:first-child {
+  opacity: 1;
+  transform: translate3d(55vw, -10vh, 0);
+}

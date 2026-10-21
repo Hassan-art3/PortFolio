@@ -1,0 +1,170 @@
+.skills__filter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-3) var(--sp-4);
+  margin-bottom: var(--sp-6);
+}
+.skills__filter-label {
+  font-size: var(--fs-xs);
+  color: var(--text-faint);
+}
+.skills__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+}
+.skills__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  height: 38px;
+  padding: 0 var(--sp-4);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--line-strong);
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  transition:
+    color var(--dur-fast),
+    border-color var(--dur-fast),
+    background-color var(--dur-fast);
+}
+.skills__chip:hover {
+  color: var(--text);
+  border-color: var(--text-faint);
+}
+.skills__chip {
+  position: relative;
+}
+.skills__chip-label {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+.skills__chip-bg {
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: var(--text);
+}
+.skills__chip[aria-pressed='true'] {
+  color: var(--accent-ink);
+  border-color: transparent;
+}
+
+.skills__dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent-p, var(--accent));
+  flex: none;
+}
+
+.skills__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--line);
+  background: var(--line);
+  overflow: hidden;
+}
+.skills__group {
+  padding: var(--sp-6) var(--sp-5);
+  background: var(--bg-raised);
+  min-width: 0;
+}
+.skills__comment {
+  font-size: var(--fs-xs);
+  color: var(--text-faint);
+}
+.skills__group-title {
+  margin-top: var(--sp-2);
+  margin-bottom: var(--sp-5);
+  font-size: var(--fs-lg);
+  letter-spacing: -0.02em;
+}
+
+.skills__items {
+  display: grid;
+}
+.skills__item {
+  --stagger: calc(var(--g, 0) * 70ms + var(--i, 0) * 45ms + 200ms);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  padding: var(--sp-3) 0;
+  border-top: 1px dashed var(--line);
+  transition:
+    opacity var(--dur) var(--ease-out),
+    transform var(--dur) var(--ease-out);
+}
+/* Rows slide in one after another when their group reveals. Keyframes with
+   backwards fill only apply during the entrance, so filtering stays instant. */
+.js .skills__group:not(.is-visible) .skills__item {
+  opacity: 0;
+}
+.js .skills__group.is-visible .skills__item {
+  animation: row-in 520ms var(--ease-out) var(--stagger) backwards;
+}
+.skills__item:hover {
+  transform: translateX(4px);
+}
+.skills__item:first-child {
+  border-top: 0;
+}
+.skills__item.is-dim {
+  opacity: 0.22;
+  transform: scale(0.98);
+}
+.skills__name {
+  display: grid;
+  font-size: var(--fs-sm);
+  min-width: 0;
+}
+.skills__note {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--text-faint);
+}
+.skills__used {
+  display: inline-flex;
+  gap: 4px;
+  flex: none;
+}
+.skills__used .skills__dot {
+  transition: transform 400ms var(--ease-spring);
+}
+.js .skills__group.is-visible .skills__used .skills__dot {
+  animation: dot-pop 500ms var(--ease-spring) calc(var(--stagger) + 200ms) backwards;
+}
+.skills__item:hover .skills__used .skills__dot {
+  transform: scale(1.4);
+}
+
+@keyframes row-in {
+  from {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+}
+@keyframes dot-pop {
+  from {
+    transform: scale(0);
+  }
+}
+
+@media (max-width: 960px) {
+  .skills__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 600px) {
+  .skills__grid {
+    grid-template-columns: 1fr;
+  }
+}

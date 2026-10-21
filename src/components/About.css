@@ -1,0 +1,113 @@
+.about__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(2rem, 1rem + 4vw, 5rem);
+  align-items: start;
+}
+.about__intro {
+  display: grid;
+  gap: var(--sp-4);
+}
+.about__title {
+  max-width: 14ch;
+}
+.about__title-wrap {
+  position: relative;
+  width: fit-content;
+}
+.about__scribble {
+  position: absolute;
+  right: 0;
+  bottom: -14px;
+  width: 78%;
+  height: 22px;
+}
+.about__text {
+  display: grid;
+  gap: var(--sp-5);
+  font-size: var(--fs-md);
+  color: var(--text-muted);
+  padding-top: var(--sp-6);
+}
+.about__text p:first-child {
+  color: var(--text);
+}
+
+.about__principles {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--sp-4);
+  margin-top: clamp(3rem, 2rem + 4vw, 5rem);
+  counter-reset: p;
+}
+.about__principle {
+  display: grid;
+  align-content: start;
+  gap: var(--sp-3);
+  padding: var(--sp-6) var(--sp-5);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--line);
+  background: var(--bg-raised);
+  transition:
+    border-color var(--dur) var(--ease-out),
+    transform var(--dur) var(--ease-out);
+}
+.about__principle::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(80% 60% at 0% 0%, var(--accent-soft), transparent 70%);
+  opacity: 0;
+  transition: opacity 500ms var(--ease-out);
+  pointer-events: none;
+}
+.about__principle {
+  position: relative;
+}
+/* Higher specificity than .js .reveal so the hover translate also transitions */
+.js .reveal.about__principle,
+.about__principle {
+  transition:
+    border-color var(--dur) var(--ease-out),
+    translate 450ms var(--ease-spring),
+    opacity var(--dur-slow) var(--ease-out),
+    transform var(--dur-slow) var(--ease-out);
+  transition-delay: 0ms, 0ms, var(--reveal-delay, 0ms), var(--reveal-delay, 0ms);
+}
+@media (hover: hover) and (pointer: fine) {
+  .about__principle:hover {
+    border-color: var(--accent-line);
+    translate: 0 -6px;
+  }
+  .about__principle:hover::before {
+    opacity: 1;
+  }
+}
+.about__cmd {
+  font-size: var(--fs-xs);
+  color: var(--text-faint);
+}
+.about__cmd span {
+  color: var(--accent);
+}
+.about__principle h3 {
+  font-size: var(--fs-lg);
+  letter-spacing: -0.02em;
+}
+.about__body {
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+
+@media (max-width: 900px) {
+  .about__grid {
+    grid-template-columns: 1fr;
+  }
+  .about__text {
+    padding-top: 0;
+  }
+  .about__principles {
+    grid-template-columns: 1fr;
+  }
+}

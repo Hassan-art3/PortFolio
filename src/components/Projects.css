@@ -1,0 +1,433 @@
+.projects__list {
+  display: grid;
+  gap: clamp(1.5rem, 1rem + 2vw, 2.5rem);
+}
+
+.showcase {
+  transform-origin: 50% 100%;
+}
+
+.showcase__inner {
+  --mx: 50%;
+  --my: 30%;
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: stretch;
+  min-height: 560px;
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--line);
+  background:
+    radial-gradient(120% 90% at 100% 0%, color-mix(in srgb, var(--accent-p) 9%, transparent), transparent 55%),
+    var(--bg-raised);
+  overflow: hidden;
+  transition:
+    transform 500ms var(--ease-out),
+    border-color var(--dur) var(--ease-out),
+    box-shadow 500ms var(--ease-out);
+}
+.showcase--flip .showcase__inner {
+  background:
+    radial-gradient(120% 90% at 0% 0%, color-mix(in srgb, var(--accent-p) 9%, transparent), transparent 55%),
+    var(--bg-raised);
+}
+.showcase--flip .showcase__info {
+  order: 2;
+}
+
+/* Hover: lift. Shadow is static per state (not animated every frame). */
+@media (hover: hover) and (pointer: fine) {
+  .showcase__inner:hover {
+    transform: translateY(-6px);
+    border-color: color-mix(in srgb, var(--accent-p) 28%, var(--line));
+    box-shadow: 0 40px 80px -48px color-mix(in srgb, var(--accent-p) 45%, transparent);
+  }
+}
+
+/* Pointer-following light (desktop; --mx/--my written once per frame) */
+.showcase__spot {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    520px circle at var(--mx) var(--my),
+    color-mix(in srgb, var(--accent-p) 13%, transparent),
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 400ms var(--ease-out);
+}
+/* Border highlight that follows the pointer, drawn with a mask */
+.showcase__ring {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  border-radius: inherit;
+  padding: 1px;
+  pointer-events: none;
+  background: radial-gradient(
+    360px circle at var(--mx) var(--my),
+    color-mix(in srgb, var(--accent-p) 85%, white),
+    transparent 65%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box exclude,
+    linear-gradient(#000 0 0);
+  opacity: 0;
+  transition: opacity 400ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .showcase__inner:hover .showcase__spot,
+  .showcase__inner:hover .showcase__ring {
+    opacity: 1;
+  }
+}
+
+.showcase__info {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(1.75rem, 1rem + 3vw, 3.5rem);
+  gap: var(--sp-5);
+}
+
+.showcase__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  font-size: var(--fs-xs);
+}
+.showcase__index {
+  color: var(--text-faint);
+  letter-spacing: 0.06em;
+}
+.showcase__stage {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  color: var(--text-muted);
+}
+.showcase__stage span {
+  position: relative;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-p);
+}
+.showcase__stage span::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  border: 1px solid var(--accent-p);
+  animation: stage-ping 2.6s var(--ease-out) infinite;
+}
+.showcase--placeholder .showcase__stage span::after {
+  animation: none;
+  display: none;
+}
+
+.showcase__title-row {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  margin-top: auto;
+}
+.showcase__icon {
+  display: inline-flex;
+  transition: transform 500ms var(--ease-spring);
+}
+.showcase__name {
+  font-size: var(--fs-xl);
+  transition: transform 500ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .showcase__inner:hover .showcase__icon {
+    transform: rotate(-6deg) scale(1.06);
+  }
+  .showcase__inner:hover .showcase__name {
+    transform: translateX(4px);
+  }
+}
+
+.showcase__tagline {
+  font-size: var(--fs-md);
+  color: var(--text-muted);
+  max-width: 44ch;
+}
+
+.showcase__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+}
+.showcase__tags .tag {
+  transition:
+    border-color var(--dur-fast),
+    color var(--dur-fast);
+}
+.showcase__tags .tag:hover {
+  border-color: var(--accent-p);
+  color: var(--text);
+}
+
+.showcase__links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-5);
+  margin-top: var(--sp-2);
+}
+
+/* "Read the case study" — underline sweeps, arrow swaps through */
+.showcase__cta {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding-block: var(--sp-2);
+  font-weight: 500;
+}
+.showcase__cta::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 44px;
+  bottom: 2px;
+  height: 1px;
+  background: var(--line-strong);
+}
+.showcase__cta::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 44px;
+  bottom: 2px;
+  height: 1px;
+  z-index: 1;
+  background: var(--accent-p);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 450ms var(--ease-out);
+}
+.showcase__cta-icon {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid var(--line-strong);
+  overflow: hidden;
+  transition:
+    background-color var(--dur) var(--ease-out),
+    border-color var(--dur) var(--ease-out),
+    color var(--dur) var(--ease-out);
+}
+.showcase__cta-icon svg {
+  grid-area: 1 / 1;
+  transition: transform 450ms var(--ease-out);
+}
+.showcase__cta-icon svg:last-child {
+  transform: translateX(-200%);
+}
+.showcase__cta:hover::before,
+.showcase__cta:focus-visible::before {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+.showcase__cta:hover .showcase__cta-icon,
+.showcase__cta:focus-visible .showcase__cta-icon {
+  background: var(--accent-p);
+  border-color: var(--accent-p);
+  color: var(--accent-ink);
+}
+.showcase__cta:hover .showcase__cta-icon svg:first-child,
+.showcase__cta:focus-visible .showcase__cta-icon svg:first-child {
+  transform: translateX(200%);
+}
+.showcase__cta:hover .showcase__cta-icon svg:last-child,
+.showcase__cta:focus-visible .showcase__cta-icon svg:last-child {
+  transform: translateX(0);
+}
+.showcase__cta:active .showcase__cta-icon {
+  transform: scale(0.9);
+}
+
+/* ---- Visual ---- */
+.showcase__visual {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  min-height: 460px;
+  border-left: 1px solid var(--line);
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 32px 32px;
+  background-position: center;
+  overflow: hidden;
+  perspective: 1200px;
+}
+.showcase--flip .showcase__visual {
+  border-left: 0;
+  border-right: 1px solid var(--line);
+}
+.showcase__halo {
+  position: absolute;
+  width: 70%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--accent-p) 30%, transparent), transparent);
+  opacity: 0.55;
+  transition:
+    scale 800ms var(--ease-out),
+    opacity 800ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .showcase__inner:hover .showcase__halo {
+    scale: 1.15;
+    opacity: 0.8;
+  }
+}
+
+.showcase__layer {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  transform-style: preserve-3d;
+}
+.showcase__layer--0 {
+  z-index: 3;
+}
+.showcase__layer--1 {
+  z-index: 2;
+}
+.showcase__layer--2 {
+  z-index: 1;
+}
+
+.showcase__phone {
+  --phone-w: 220px;
+  translate: 0 16%;
+  transition:
+    translate 700ms var(--ease-spring),
+    rotate 700ms var(--ease-spring);
+}
+.showcase__phone .phone__screen > img {
+  transition: transform 900ms var(--ease-out);
+}
+/* Screenshot parallax: the image zooms slightly and slides against the cursor
+   inside the phone frame (--nx/--ny come from the card's spotlight hook). */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .showcase__phone .phone__screen > img {
+    transform: scale(var(--zoom, 1)) translate(calc(var(--nx, 0) * -14px), calc(var(--ny, 0) * -14px));
+    transition: transform 500ms var(--ease-out);
+  }
+  .showcase__inner:hover .phone__screen > img {
+    --zoom: 1.06;
+  }
+}
+@media (hover: hover) and (pointer: fine) {
+  .showcase__inner:hover .showcase__phone--0 {
+    translate: 0 11%;
+  }
+}
+
+.showcase__phone.is-multi {
+  --phone-w: 200px;
+}
+.showcase__phone--1.is-multi {
+  translate: -58% 20%;
+  rotate: -6deg;
+  --dim: 0.25;
+}
+.showcase__phone--2.is-multi {
+  translate: 58% 20%;
+  rotate: 6deg;
+  --dim: 0.25;
+}
+@media (hover: hover) and (pointer: fine) {
+  .showcase__inner:hover .showcase__phone--1.is-multi {
+    translate: -68% 16%;
+    rotate: -9deg;
+  }
+  .showcase__inner:hover .showcase__phone--2.is-multi {
+    translate: 68% 16%;
+    rotate: 9deg;
+  }
+}
+
+/* Placeholder project: quieter, dashed treatment */
+.showcase--placeholder .showcase__inner {
+  min-height: 0;
+  border-style: dashed;
+  border-color: var(--line-strong);
+  background: transparent;
+}
+.showcase--placeholder .showcase__visual {
+  min-height: 340px;
+}
+.showcase--placeholder .showcase__phone {
+  --phone-w: 180px;
+  opacity: 0.75;
+}
+
+@keyframes stage-ping {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.8;
+  }
+  70%,
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+@media (max-width: 900px) {
+  .showcase__inner {
+    grid-template-columns: 1fr;
+    min-height: 0;
+  }
+  .showcase--flip .showcase__info {
+    order: 0;
+  }
+  .showcase__visual,
+  .showcase--flip .showcase__visual {
+    border: 0;
+    border-top: 1px solid var(--line);
+    min-height: 400px;
+  }
+  .showcase__title-row {
+    margin-top: var(--sp-2);
+  }
+}
+
+@media (max-width: 520px) {
+  .showcase__visual {
+    min-height: 360px;
+  }
+  .showcase__phone {
+    --phone-w: 190px;
+  }
+  .showcase__phone.is-multi {
+    --phone-w: 160px;
+  }
+  .showcase__phone--1.is-multi {
+    translate: -50% 22%;
+  }
+  .showcase__phone--2.is-multi {
+    translate: 50% 22%;
+  }
+}
