@@ -44,7 +44,7 @@
   --sp-8: 4rem;
   --sp-9: 6rem;
   --sp-10: 8rem;
-  --section-y: clamp(5rem, 3.5rem + 6vw, 9rem);
+  --section-y: clamp(4rem, 3rem + 4.5vw, 7rem);
   --gutter: clamp(1rem, 0.5rem + 2.5vw, 2.5rem);
   --container: 1200px;
 
@@ -441,6 +441,97 @@ button {
     clip-path: none;
   }
   .scroll-progress {
+    display: none;
+  }
+}
+
+/* ---------- Polish layer ---------- */
+
+/* Hairline between consecutive sections: fades out toward both edges */
+.section + .section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: min(var(--container), 100% - var(--gutter) * 2);
+  height: 1px;
+  translate: -50% 0;
+  background: linear-gradient(90deg, transparent, var(--line-strong) 20%, var(--accent-line) 50%, var(--line-strong) 80%, transparent);
+  pointer-events: none;
+}
+
+/* Entrances resolve out of a soft blur (not on clip reveals, which wipe instead) */
+.js .reveal:not([data-reveal='clip']) {
+  filter: blur(6px);
+  transition:
+    opacity var(--dur-slow) var(--ease-out),
+    transform var(--dur-slow) var(--ease-out),
+    filter var(--dur-slow) var(--ease-out);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.js .reveal:not([data-reveal='clip']).is-visible {
+  filter: none;
+}
+
+/* Primary button: light sweep and glow on hover */
+.btn-primary {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, 0.55) 50%, transparent 65%);
+  translate: -110% 0;
+  pointer-events: none;
+}
+.btn-ghost {
+  background-image: linear-gradient(var(--accent-soft), var(--accent-soft));
+  background-repeat: no-repeat;
+  background-size: 100% 0%;
+  background-position: 0 100%;
+  transition:
+    background-size var(--dur) var(--ease-out),
+    background-color var(--dur) var(--ease-out),
+    border-color var(--dur) var(--ease-out),
+    color var(--dur) var(--ease-out),
+    transform var(--dur-micro) var(--ease-spring);
+}
+.tag {
+  transition:
+    border-color var(--dur) var(--ease-out),
+    color var(--dur) var(--ease-out),
+    background-color var(--dur) var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btn-primary:hover {
+    box-shadow:
+      0 10px 30px -10px color-mix(in srgb, var(--accent) 60%, transparent),
+      0 0 0 1px color-mix(in srgb, var(--accent) 40%, transparent);
+  }
+  .btn-primary:hover::after {
+    translate: 110% 0;
+    transition: translate 700ms var(--ease-out);
+  }
+  .btn-ghost:hover {
+    background-size: 100% 100%;
+    border-color: var(--accent-line);
+  }
+  .tag:hover {
+    border-color: var(--accent-line);
+    color: var(--text);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js .reveal:not([data-reveal='clip']) {
+    filter: none;
+  }
+  .btn-primary::after {
     display: none;
   }
 }

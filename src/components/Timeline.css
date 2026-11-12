@@ -190,3 +190,23 @@
     width: 100%;
   }
 }
+
+/* Entry hover: the marker's ring swells and the heading nudges in */
+.term__entry-inner::before {
+  transition:
+    transform 600ms var(--ease-spring) calc(var(--reveal-delay, 0ms) + 250ms),
+    box-shadow 320ms var(--ease-out);
+}
+.term__heading {
+  transition: transform var(--dur) var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .term__entry:hover .term__entry-inner::before {
+    box-shadow:
+      0 0 0 6px color-mix(in srgb, var(--accent-p) 26%, transparent),
+      0 0 18px 2px color-mix(in srgb, var(--accent-p) 45%, transparent);
+  }
+  .term__entry:hover .term__heading {
+    transform: translateX(4px);
+  }
+}
